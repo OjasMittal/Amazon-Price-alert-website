@@ -3,6 +3,8 @@ from pyrebase import initialize_app
 import functions
 import time
 from PIL import Image
+from selenium import webdriver
+
 
 
 firebaseConfig = {
@@ -50,24 +52,28 @@ if choice == "Sign up":
         except:
             st.info("This account already exists !")
 
-        st.info("Login through login option in the left drop down menu to use the services")
+st.info("Login through login option in the left drop down menu to use the services")
 if choice == "Login":
     login = st.sidebar.checkbox('Login')
     if login:
-        #try:
+        try:
             user = auth.sign_in_with_email_and_password(email, password)
-            st.write(
+        except:
+            st.info("Enter a valid email/password !")
+        st.write(
                 "This app is designed to provide free sms and email alert services. Just post your Amazon link and your desired price for the product, we will Alert you as soon as the price drops")
-            url = st.text_input('Enter the Amazon link of the product below')
-            price = st.text_input('Enter the price below which you want to but it:')
+        url = st.text_input('Enter the Amazon link of the product below')
+        price = st.text_input('Enter the price below which you want to but it:')
 
-            id = st.text_input('Enter your email on which you want to get notified: ')
-            no = st.text_input('Enter mobile using +country code, eg: +91 : ')
-            result=st.button("Check")
-            if result:
+        id = st.text_input('Enter your email on which you want to get notified: ')
+        no = st.text_input('Enter mobile using +country code, eg: +91 : ')
+        result=st.button("Check")
+        if result:
 
 
-                driver = functions.get_driver(url)
+
+
+                driver=functions.get_driver(url)
                 time.sleep(2)
                 element = driver.find_element(by='xpath',
                                               value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
@@ -84,8 +90,7 @@ if choice == "Login":
                         print("Price is high now! ")
                         print("You will receive an email and a SMS when price will go down")
                         time.sleep(3600)
-        #except:
-         # st.info("Enter a valid email/password !")
+
 
 
 

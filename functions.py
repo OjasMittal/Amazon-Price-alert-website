@@ -5,7 +5,6 @@ from twilio.rest import Client
 
 
 def get_driver(urll):
-
     options = webdriver.ChromeOptions()
     options.add_argument("disable-infobars")
     options.add_argument("start-maximized")
@@ -16,6 +15,7 @@ def get_driver(urll):
     driver = webdriver.Chrome(options=options)
     driver.get(urll)
     return driver
+
 
 
 def email(value,urll,id):
