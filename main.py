@@ -3,9 +3,10 @@ from pyrebase import initialize_app
 import functions
 import time
 from PIL import Image
-from selenium import webdriver
 
 
+img=Image.open('icon.png')
+st.set_page_config(page_title="Amazon Price Alert",page_icon=img)
 
 firebaseConfig = {
     'apiKey': "AIzaSyCIGH1T226lrzpvPfBBj_gVxQFcYhgF8B8",
@@ -35,6 +36,14 @@ st.sidebar.title("WELCOME!")
 choice = st.sidebar.selectbox('Login/SignUp', ['Login', 'Sign up'])
 email = st.sidebar.text_input("Enter your email address")
 password = st.sidebar.text_input("Enter your password", type="password")
+hide_menu_style="""
+<style>
+#MainMenu{visibility:hidden;}
+footer{visibility:hidden;}
+</style>
+"""
+st.markdown(hide_menu_style,unsafe_allow_html=True)
+
 
 
 if choice == "Sign up":
@@ -65,13 +74,11 @@ if choice == "Login":
         url = st.text_input('Enter the Amazon link of the product below')
         price = st.text_input('Enter the price below which you want to but it:')
 
+
         id = st.text_input('Enter your email on which you want to get notified: ')
         no = st.text_input('Enter mobile using +country code, eg: +91 : ')
         result=st.button("Check")
         if result:
-
-
-
 
                 driver=functions.get_driver(url)
                 time.sleep(2)
@@ -81,14 +88,14 @@ if choice == "Login":
                 data = functions.clean_text(element.text)
                 print(data)
                 while True:
-                    if data < price:
-                        functions.email(element.text,id)
+                    if data < float(price):
+                        functions.email(element.text,url,id)
                         functions.send_sms(element.text,no,url)
-                        print("Mail sent")
+                        st.write("Mail and SMS sent")
                         break
                     else:
-                        print("Price is high now! ")
-                        print("You will receive an email and a SMS when price will go down")
+                        st.write("Price is high now! ")
+                        st.write("You will receive an email and a SMS when price will go down")
                         time.sleep(3600)
 
 
