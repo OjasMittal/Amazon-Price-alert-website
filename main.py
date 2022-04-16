@@ -5,7 +5,7 @@ import time
 from PIL import Image
 
 
-img=Image.open('icon.png')
+img=Image.open('icon1.png')
 st.set_page_config(page_title="Amazon Price Alert",page_icon=img)
 
 firebaseConfig = {
