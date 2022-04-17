@@ -3,6 +3,7 @@ from pyrebase import initialize_app
 import functions
 import time
 from PIL import Image
+#secret = '2921d4f2d89ab0a7ec7239783a567197'
 
 
 
@@ -74,14 +75,41 @@ if choice == "Login":
                 "This app is designed to provide free sms and email alert services. Just post your Amazon link and your desired price for the product, we will Alert you as soon as the price drops")
         url = st.text_input('Enter the Amazon link of the product below')
         price = st.text_input('Enter the price below which you want to but it:')
-
-
         id = st.text_input('Enter your email on which you want to get notified: ')
-        no = st.text_input('Enter mobile using +country code, eg: +91 : ')
-        result=st.button("Monitor")
-        if result:
+        st.write("Do you want to receive alert on your phone no.? You will need a Twilio account for it")
+        bio = st.radio('Jump to', ['Yes', 'No'])
+        st.write('<style>div.row-widget.stRadio > div {flex-direction:row;}</style>', unsafe_allow_html=True)
+        if bio=="Yes":
+            ac_id=st.text_input("Enter Twilio Account Sid")
+            secret = st.text_input('Enter Twilio Auth. token')
+            no = st.text_input('Enter mobile using +country code, eg: +91 : ')
 
-                driver=functions.get_driver(url)
+            result = st.button("Monitor")
+            if result:
+
+                    driver=functions.get_driver(url)
+                    time.sleep(2)
+                    element = driver.find_element(by='xpath',
+                                                  value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
+
+                    data = functions.clean_text(element.text)
+                    print(data)
+                    while True:
+                        if data < float(price):
+                            functions.email(element.text,url,id)
+
+                            functions.send_sms(element.text,no,url,secret)
+                            st.write("Hurry! Prices are down now! Check your mail or messages")
+                            break
+                        else:
+                            st.write("Price is high now! ")
+                            st.write("You will receive an email and a SMS when price will go down")
+                            time.sleep(3600)
+        if bio=="No":
+            result = st.button("Monitor")
+            if result:
+
+                driver = functions.get_driver(url)
                 time.sleep(2)
                 element = driver.find_element(by='xpath',
                                               value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
@@ -90,15 +118,14 @@ if choice == "Login":
                 print(data)
                 while True:
                     if data < float(price):
-                        functions.email(element.text,url,id)
-                        secret='2921d4f2d89ab0a7ec7239783a567197'
-                        functions.send_sms(element.text,no,url,secret)
-                        st.write("Mail and SMS sent")
+                        functions.email(element.text, url, id)
+                        st.write("Hurry! Prices are down now! Check your mail")
                         break
                     else:
                         st.write("Price is high now! ")
                         st.write("You will receive an email and a SMS when price will go down")
                         time.sleep(3600)
+
 
 
 
