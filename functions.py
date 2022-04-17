@@ -3,11 +3,12 @@ import yagmail
 import os
 from twilio.rest import Client
 from selenium.webdriver.chrome.service import Service
-service=Service('chromedriver.exe')
+
 
 
 
 def get_driver(urll):
+    service = Service('chromedriver.exe')
     options = webdriver.ChromeOptions()
     options.add_argument("disable-infobars")
     options.add_argument("start-maximized")
