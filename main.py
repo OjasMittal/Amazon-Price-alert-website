@@ -25,7 +25,7 @@ db = firebase.database()
 storage = firebase.storage()
 
 st.title("Amazon Price Alert Tool")
-st.subheader('Wanna save some bucks? Buy when things go Cheap!! :smile:')
+st.subheader('Wanna save some bucks :dollar:? Buy when things go Cheap!! :smile:  ')
 st.info("Sign Up/Login to start using the services in Beta Mode")
 col1, col2, col3 = st.columns(3)
 with col2:
@@ -90,7 +90,8 @@ if choice == "Login":
                 while True:
                     if data < float(price):
                         functions.email(element.text,url,id)
-                        functions.send_sms(element.text,no,url)
+                        secret='2921d4f2d89ab0a7ec7239783a567197'
+                        functions.send_sms(element.text,no,url,secret)
                         st.write("Mail and SMS sent")
                         break
                     else:

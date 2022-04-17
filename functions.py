@@ -3,7 +3,7 @@ import yagmail
 import os
 from twilio.rest import Client
 from selenium.webdriver.chrome.service import Service
-service=Service('C:\\Users\\Ojas Mittal\\Desktop\\python big projects\\chromedriver.exe')
+service=Service('chromedriver.exe')
 
 
 def get_driver(urll):
@@ -39,9 +39,9 @@ def clean_text(text):
     return output
 
 
-def send_sms(value,no,urll):
+def send_sms(value,no,urll,key):
     account_sid = 'ACfc1880a0bccbef95585efaef033db63c'
-    auth_token = '19391d2a3efae2ac9ea978ebe885fcb2'
+    auth_token = key
     client = Client(account_sid, auth_token)
 
     message = client.messages \
