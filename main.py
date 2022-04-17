@@ -77,7 +77,7 @@ if choice == "Login":
 
         id = st.text_input('Enter your email on which you want to get notified: ')
         no = st.text_input('Enter mobile using +country code, eg: +91 : ')
-        result=st.button("Check")
+        result=st.button("Monitor")
         if result:
 
                 driver=functions.get_driver(url)
