@@ -76,8 +76,7 @@ if choice == "Login":
         url = st.text_input('Enter the Amazon link of the product below')
         price = st.text_input('Enter the price below which you want to but it:')
         id = st.text_input('Enter your email on which you want to get notified: ')
-        st.write("Do you want to receive alert on your phone no.? You will need a Twilio account for it")
-        bio = st.radio('Jump to', ['Yes', 'No'])
+        bio = st.radio('Do you want to receive alert on your phone no.? You will need a Twilio account for it', ['Yes', 'No'])
         st.write('<style>div.row-widget.stRadio > div {flex-direction:row;}</style>', unsafe_allow_html=True)
         if bio=="Yes":
             ac_id=st.text_input("Enter Twilio Account Sid")

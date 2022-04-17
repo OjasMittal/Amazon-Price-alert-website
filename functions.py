@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.service import Service
 
 
 
+
 def get_driver(urll):
     service = Service('chromedriver.exe')
     options = webdriver.ChromeOptions()
