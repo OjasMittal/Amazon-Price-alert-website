@@ -87,7 +87,7 @@ if choice == "Login":
             if result:
 
                     driver=functions.get_driver(url)
-                    time.sleep(2)
+                    time.sleep(8)
                     element = driver.find_element(by='xpath',
                                                   value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
 
