@@ -69,25 +69,46 @@ if choice == "Login":
     if login:
         try:
             user = auth.sign_in_with_email_and_password(email, password)
-        except:
-            st.info("Enter a valid email/password !")
-        st.write(
-                "This app is designed to provide free sms and email alert services. Just post your Amazon link and your desired price for the product, we will Alert you as soon as the price drops")
-        url = st.text_input('Enter the Amazon link of the product below')
-        price = st.text_input('Enter the price below which you want to but it:')
-        id = st.text_input('Enter your email on which you want to get notified: ')
-        bio = st.radio('Do you want to receive alert on your phone no.? You will need a Twilio account for it', ['Yes', 'No'])
-        st.write('<style>div.row-widget.stRadio > div {flex-direction:row;}</style>', unsafe_allow_html=True)
-        if bio=="Yes":
-            ac_id=st.text_input("Enter Twilio Account Sid")
-            secret = st.text_input('Enter Twilio Auth. token')
-            no = st.text_input('Enter mobile using +country code, eg: +91 : ')
 
-            result = st.button("Monitor")
-            if result:
+            st.write(
+                    "This app is designed to provide free sms and email alert services. Just post your Amazon link and your desired price for the product, we will Alert you as soon as the price drops")
+            url = st.text_input('Paste the Amazon link of the product below')
+            price = st.text_input('Enter the price below which you want to but it:')
+            id = st.text_input('Enter your email on which you want to get notified: ')
+            bio = st.radio('Do you want to receive alert on your phone no.? You will need a Twilio account for it', ['Yes', 'No'])
+            st.write('<style>div.row-widget.stRadio > div {flex-direction:row;}</style>', unsafe_allow_html=True)
+            if bio=="Yes":
+                ac_id=st.text_input("Enter Twilio Account Sid")
+                secret = st.text_input('Enter Twilio Auth. token')
+                no = st.text_input('Enter mobile using +country code, eg: +91 : ')
 
-                    driver=functions.get_driver(url)
-                    time.sleep(8)
+                result = st.button("Monitor")
+                if result:
+
+                        driver=functions.get_driver(url)
+                        time.sleep(8)
+                        element = driver.find_element(by='xpath',
+                                                      value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
+
+                        data = functions.clean_text(element.text)
+                        print(data)
+                        while True:
+                            if data < float(price):
+                                functions.email(element.text,url,id)
+
+                                functions.send_sms(element.text,no,url,ac_id,secret)
+                                st.write("Hurry! Prices are down now! Check your mail or messages")
+                                break
+                            else:
+                                st.write("Price is high now! ")
+                                st.write("You will receive an email and a SMS when price will go down")
+                                time.sleep(3600)
+            if bio=="No":
+                result = st.button("Monitor")
+                if result:
+
+                    driver = functions.get_driver(url)
+                    time.sleep(2)
                     element = driver.find_element(by='xpath',
                                                   value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
 
@@ -95,36 +116,15 @@ if choice == "Login":
                     print(data)
                     while True:
                         if data < float(price):
-                            functions.email(element.text,url,id)
-
-                            functions.send_sms(element.text,no,url,ac_id,secret)
-                            st.write("Hurry! Prices are down now! Check your mail or messages")
+                            functions.email(element.text, url, id)
+                            st.write("Hurry! Prices are down now! Check your mail")
                             break
                         else:
                             st.write("Price is high now! ")
                             st.write("You will receive an email and a SMS when price will go down")
                             time.sleep(3600)
-        if bio=="No":
-            result = st.button("Monitor")
-            if result:
-
-                driver = functions.get_driver(url)
-                time.sleep(2)
-                element = driver.find_element(by='xpath',
-                                              value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
-
-                data = functions.clean_text(element.text)
-                print(data)
-                while True:
-                    if data < float(price):
-                        functions.email(element.text, url, id)
-                        st.write("Hurry! Prices are down now! Check your mail")
-                        break
-                    else:
-                        st.write("Price is high now! ")
-                        st.write("You will receive an email and a SMS when price will go down")
-                        time.sleep(3600)
-
+        except:
+            st.info("Enter a valid email/password !")
 
 
 
