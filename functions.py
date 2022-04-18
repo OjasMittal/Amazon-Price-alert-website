@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.service import Service
 
 
 def get_driver(urll):
-    service = Service('C:\\Users\\Ojas Mittal\\Desktop\\python big projects\\chromedriver.exe')
+    service = Service('chromedriver.exe')
     options = webdriver.ChromeOptions()
     options.add_argument("disable-infobars")
     options.add_argument("start-maximized")
