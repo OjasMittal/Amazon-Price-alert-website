@@ -42,8 +42,8 @@ def clean_text(text):
     return output
 
 
-def send_sms(value,no,urll,key):
-    account_sid = 'ACfc1880a0bccbef95585efaef033db63c'
+def send_sms(value,no,urll,ac_id,key):
+    account_sid = ac_id
     auth_token = key
     client = Client(account_sid, auth_token)
 
