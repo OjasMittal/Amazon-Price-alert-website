@@ -97,7 +97,7 @@ if choice == "Login":
                         if data < float(price):
                             functions.email(element.text,url,id)
 
-                            functions.send_sms(element.text,no,url,secret)
+                            functions.send_sms(element.text,no,url,ac_id,secret)
                             st.write("Hurry! Prices are down now! Check your mail or messages")
                             break
                         else:
